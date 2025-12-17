@@ -12,16 +12,27 @@ class item extends Model
     protected $table = 'items';
     
     protected $fillable = [
-        'sku',
-        'name',
-        'category_id',
-        'unit_id',
-        'stock',
-        'stock_min',
-        'price',
-        'description',
-        'condition',
-        'image',
-        'is_active',
+        'sku', 'name', 'category_id', 'unit_id', 'stock', 'stock_min',
+        'price', 'description', 'condition', 'image', 'is_active',
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'price' => 'decimal:2',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(categories::class, 'category_id');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(unit::class, 'unit_id');
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(order_item::class);
+    }
 }
