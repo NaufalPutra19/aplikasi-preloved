@@ -1,6 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container">
-    <a class="navbar-brand text-primary fw-bold" href="{{ route('home') }}">PreloveX</a>
+    <a class="navbar-brand" href="{{ route('home') }}">
+      @if(file_exists(public_path('images/logo.png')))
+        <img src="{{ asset('images/logo.png') }}" alt="The ORDER" height="40" style="max-height: 40px;">
+      @else
+        <span class="text-primary fw-bold">PreloveX</span>
+      @endif
+    </a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
       <span class="navbar-toggler-icon"></span>
     </button>

@@ -100,18 +100,3 @@ class ItemController extends Controller
         return redirect()->route('admin.items.index')->with('success', 'Item berhasil dihapus');
     }
 }
-    {
-        $request->validate([
-            'id' => 'required'
-        ]);
-
-        $cart = session('cart', []);
-        
-        if(isset($cart[$request->id])) {
-            unset($cart[$request->id]);
-            session(['cart' => $cart]);
-            return back()->with('success', 'Item berhasil dihapus dari cart');
-        }
-        
-        return back()->with('error', 'Item tidak ditemukan');
-    }

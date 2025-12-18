@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\item;
 
 class CartController extends Controller
 {
@@ -66,6 +67,10 @@ class CartController extends Controller
 
     public function remove(Request $request)
     {
+        $request->validate([
+            'id' => 'required'
+        ]);
+
         $cart = session('cart', []);
         
         if(isset($cart[$request->id])) {

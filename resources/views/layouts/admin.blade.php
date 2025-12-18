@@ -37,6 +37,12 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-brand img {
+    filter: brightness(0) invert(1);
 }
 
 .sidebar-nav {
@@ -109,8 +115,13 @@ body {
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-        <i class="bi bi-shop me-2"></i>PreloveX Admin
+    <div class="sidebar-brand d-flex align-items-center">
+        @if(file_exists(public_path('images/logo.png')))
+            <img src="{{ asset('images/logo.png') }}" alt="The ORDER" height="35" style="max-height: 35px; margin-right: 10px;">
+        @else
+            <i class="bi bi-shop me-2"></i>
+        @endif
+        <span>Admin</span>
     </div>
     
     <nav class="sidebar-nav">
@@ -120,13 +131,13 @@ body {
         <a href="{{ route('admin.items.index') }}" class="nav-link {{ request()->routeIs('admin.items.*') ? 'active' : '' }}">
             <i class="bi bi-box-seam me-3"></i>Products
         </a>
-        <a href="#" class="nav-link">
+        <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
             <i class="bi bi-receipt me-3"></i>Orders
         </a>
-        <a href="#" class="nav-link">
+        <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
             <i class="bi bi-people me-3"></i>Customers
         </a>
-        <a href="#" class="nav-link">
+        <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
             <i class="bi bi-gear me-3"></i>Settings
         </a>
         

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\item;
 use App\Models\order;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -21,7 +22,7 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
         
-        $lowStockItems = item::where('stock', '<=', DB::raw('stock_min'))
+        $lowStockItems = item::whereColumn('stock', '<=', 'stock_min')
             ->where('stock', '>', 0)
             ->get();
         

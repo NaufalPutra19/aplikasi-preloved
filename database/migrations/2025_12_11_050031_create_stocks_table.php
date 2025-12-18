@@ -12,16 +12,16 @@ return new class extends Migration
    public function up()
     {
         if (!Schema::hasTable('stock')) {
-            Schema::create('stock', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('item_id')->constrained()->onDelete('cascade');
-                $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-                $table->enum('type', ['in','out']);
-                $table->integer('quantity');
-                $table->string('reference')->nullable();
-                $table->text('note')->nullable();
-                $table->timestamps();
-            });
+        Schema::create('stock', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->enum('type', ['in','out']);
+            $table->integer('quantity');
+            $table->string('reference')->nullable();
+            $table->text('note')->nullable();
+            $table->timestamps();
+        });
         }
     }
 

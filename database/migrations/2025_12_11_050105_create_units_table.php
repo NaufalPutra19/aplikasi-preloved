@@ -12,11 +12,11 @@ return new class extends Migration
     public function up()
     {
         if (!Schema::hasTable('unit')) {
-            Schema::create('unit', function (Blueprint $table) {
-                $table->id();
-                $table->string('name', 50);
-                $table->timestamps();
-            });
+        Schema::create('unit', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 50);
+            $table->timestamps();
+        });
         }
     }
 

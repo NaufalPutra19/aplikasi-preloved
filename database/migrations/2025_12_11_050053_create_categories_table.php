@@ -12,12 +12,12 @@ return new class extends Migration
     public function up()
     {
         if (!Schema::hasTable('categories')) {
-            Schema::create('categories', function (Blueprint $table) {
-                $table->id();
-                $table->string('name', 150);
-                $table->string('slug')->unique();
-                $table->timestamps();
-            });
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 150);
+            $table->string('slug')->unique();
+            $table->timestamps();
+        });
         }
     }
 

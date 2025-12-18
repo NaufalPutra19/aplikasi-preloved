@@ -13,33 +13,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create Admin User
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@prelovex.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-            'email_verified_at' => now(),
-        ]);
-
-        // Create Staff User
-        User::create([
-            'name' => 'Staff User',
-            'email' => 'staff@prelovex.com',
-            'password' => Hash::make('password'),
-            'role' => 'staff',
-            'email_verified_at' => now(),
-        ]);
-
-        // Create Customer User
-        User::create([
-            'name' => 'John Customer',
-            'email' => 'customer@prelovex.com',
-            'password' => Hash::make('password'),
-            'role' => 'customer',
-            'email_verified_at' => now(),
-        ]);
-
         // Create Categories
         $categories = [
             'Fashion & Accessories',
@@ -48,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'Books & Media',
             'Sports & Outdoors',
             'Toys & Games',
-            'Beauty & Health',
+            'Beauty & Health', 
             'Automotive'
         ];
 
