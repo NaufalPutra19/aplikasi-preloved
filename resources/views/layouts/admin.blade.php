@@ -134,6 +134,9 @@ body {
         <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
             <i class="bi bi-receipt me-3"></i>Orders
         </a>
+        <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+            <i class="bi bi-tags me-3"></i>Categories
+        </a>
         <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
             <i class="bi bi-people me-3"></i>Customers
         </a>

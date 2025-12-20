@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\CategoryController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -56,6 +57,9 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     
     // Items/Products management
     Route::resource('items', ItemController::class);
+    
+    // Categories management
+    Route::resource('categories', CategoryController::class);
     
     // Orders management
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
