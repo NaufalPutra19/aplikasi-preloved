@@ -5,23 +5,49 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\OrderController as CustomerOrderController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Auth routes
-Auth::routes();
+// Authentication Routes (Custom)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+    
+    // Google OAuth
+    Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+});
+
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Email Verification
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
+        ->middleware('signed')
+        ->name('verification.verify');
+    
+    Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail'])
+        ->name('verification.send');
+});
 
 // Home route (redirects based on role)
 Route::get('/home', function () {
     if (auth()->check()) {
-        if (auth()->user()->role === 'admin') {
+        if (auth()->user()->role === 'penjual') {
             return redirect()->route('admin.dashboard');
         }
     }
@@ -37,17 +63,21 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
 // Checkout routes (requires auth)
 Route::middleware('auth')->group(function() {
-    Route::get('/checkout', function() {
-        return view('checkout.index');
-    })->name('checkout.index');
-    
-    Route::post('/checkout', function() {
-        // Implement checkout logic here
-        return redirect()->route('home')->with('success', 'Order placed successfully!');
-    })->name('checkout.store');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    // Customer orders
+    Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
+});
+
+// Unit Management Routes (untuk admin)
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('units', UnitController::class);
 });
 
 // Admin routes
@@ -75,4 +105,5 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     
     // Settings
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::resource('units', UnitController::class);
 });

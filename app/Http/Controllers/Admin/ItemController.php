@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\item;
 use App\Models\categories;
-use App\Models\unit;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +21,7 @@ class ItemController extends Controller
     public function create()
     {
         $categories = categories::all();
-        $units = unit::all();
+        $units = Unit::all();
         return view('admin.items.create', compact('categories', 'units'));
     }
 
@@ -31,21 +31,21 @@ class ItemController extends Controller
             'sku' => 'required|unique:items',
             'name' => 'required|max:200',
             'category_id' => 'required|exists:categories,id',
-            'unit_id' => 'nullable|exists:unit,id',
+            'unit_id' => 'nullable|exists:units,id',
             'stock' => 'required|integer|min:0',
             'stock_min' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable',
             'condition' => 'required|in:New,Like New,Good,Fair',
             'image' => 'nullable|image|max:2048',
-            'is_active' => 'boolean'
+            'is_active' => 'required|boolean'
         ]);
 
         if($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('items', 'public');
         }
 
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_active'] = (bool) $request->input('is_active');
 
         item::create($validated);
 
@@ -55,7 +55,7 @@ class ItemController extends Controller
     public function edit(item $item)
     {
         $categories = categories::all();
-        $units = unit::all();
+        $units = Unit::all();
         return view('admin.items.edit', compact('item', 'categories', 'units'));
     }
 
@@ -65,14 +65,14 @@ class ItemController extends Controller
             'sku' => 'required|unique:items,sku,' . $item->id,
             'name' => 'required|max:200',
             'category_id' => 'required|exists:categories,id',
-            'unit_id' => 'nullable|exists:unit,id',
+            'unit_id' => 'nullable|exists:units,id',
             'stock' => 'required|integer|min:0',
             'stock_min' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable',
             'condition' => 'required|in:New,Like New,Good,Fair',
             'image' => 'nullable|image|max:2048',
-            'is_active' => 'boolean'
+            'is_active' => 'required|boolean'
         ]);
 
         if($request->hasFile('image')) {
@@ -82,7 +82,7 @@ class ItemController extends Controller
             $validated['image'] = $request->file('image')->store('items', 'public');
         }
 
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_active'] = (bool) $request->input('is_active');
 
         $item->update($validated);
 

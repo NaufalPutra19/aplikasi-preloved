@@ -36,7 +36,7 @@
                             <span class="badge bg-secondary">{{ $order->orderItems->count() }} item(s)</span>
                         </td>
                         <td class="text-primary fw-semibold">
-                            Rp {{ number_format($order->total, 0, ',', '.') }}
+                            Rp {{ number_format($order->total_amount, 0, ',', '.') }}
                         </td>
                         <td>
                             @if($order->status == 'pending')

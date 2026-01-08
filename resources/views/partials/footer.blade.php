@@ -3,7 +3,7 @@
         <div class="row g-4">
             <div class="col-lg-4 mb-4 mb-lg-0">
                 <h5 class="fw-bold mb-3">
-                    <i class="bi bi-shop me-2"></i>PreloveX
+                    <i class="bi bi-shop me-2"></i>The Order
                 </h5>
                 <p class="text-white-50">
                     Your trusted marketplace for premium preloved items. Quality you can trust, prices you'll love.
@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col-md-6 text-center text-md-start">
                 <p class="mb-0 text-white-50 small">
-                    © {{ date('Y') }} PreloveX. All rights reserved.
+                    © {{ date('Y') }} The Order. All rights reserved.
                 </p>
             </div>
             <div class="col-md-6 text-center text-md-end">

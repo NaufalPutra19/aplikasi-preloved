@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('title', 'Admin Dashboard') - PreloveX</title>
+<title>@yield('title', 'Admin Dashboard') - The Order</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 <style>
 :root {
     --sidebar-width: 260px;
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
+    --primary: #093FB4;
+    --primary-dark: #072A80;
 }
 
 body {
@@ -136,6 +136,9 @@ body {
         </a>
         <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
             <i class="bi bi-tags me-3"></i>Categories
+        </a>
+        <a href="{{ route('admin.units.index') }}" class="nav-link {{ request()->routeIs('admin.units.*') ? 'active' : '' }}">
+            <i class="bi bi-rulers me-3"></i>Units
         </a>
         <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
             <i class="bi bi-people me-3"></i>Customers

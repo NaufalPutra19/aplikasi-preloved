@@ -1,0 +1,96 @@
+/* Theme Color Overrides */
+:root {
+    --primary: #093FB4;
+    --primary-dark: #072A80;
+    --light: #F4F4F4;
+}
+
+/* Bootstrap Color Overrides */
+.btn-primary {
+    background-color: #093FB4 !important;
+    border-color: #093FB4 !important;
+}
+
+.btn-primary:hover {
+    background-color: #072A80 !important;
+    border-color: #072A80 !important;
+}
+
+.bg-primary {
+    background-color: #093FB4 !important;
+}
+
+.text-primary {
+    color: #093FB4 !important;
+}
+
+.border-primary {
+    border-color: #093FB4 !important;
+}
+
+.badge-primary {
+    background-color: #093FB4 !important;
+}
+
+/* Light Background */
+body {
+    background-color: #F4F4F4;
+}
+
+.bg-light {
+    background-color: #F4F4F4 !important;
+}
+
+/* Form Focus States */
+.form-control:focus,
+.form-select:focus {
+    border-color: #093FB4;
+    box-shadow: 0 0 0 0.2rem rgba(9, 63, 180, 0.25);
+}
+
+/* Link Colors */
+a {
+    color: #093FB4;
+}
+
+a:hover {
+    color: #072A80;
+}
+
+/* Card Hover Effects */
+.card {
+    background-color: white;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(9, 63, 180, 0.15);
+}
+
+/* Button Focus */
+.btn-primary:focus {
+    background-color: #072A80 !important;
+    box-shadow: 0 0 0 0.25rem rgba(9, 63, 180, 0.5) !important;
+}
+
+/* Navbar Branding */
+.navbar-brand {
+    color: #093FB4 !important;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #1f2937;
+    color: white;
+}
+
+/* Alert Colors */
+.alert-primary {
+    background-color: rgba(9, 63, 180, 0.1);
+    border-color: #093FB4;
+    color: #072A80;
+}
+
+/* Progress Bar */
+.progress-bar {
+    background-color: #093FB4 !important;
+}

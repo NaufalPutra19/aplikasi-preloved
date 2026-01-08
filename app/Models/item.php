@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Unit;
 
 class item extends Model
 {
@@ -28,7 +29,7 @@ class item extends Model
 
     public function unit()
     {
-        return $this->belongsTo(unit::class, 'unit_id');
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 
     public function orderItems()

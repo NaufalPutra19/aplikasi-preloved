@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login - PreloveX')
+@section('title', 'Login - The Order')
 
 @section('content')
 <div class="row justify-content-center py-5">
@@ -37,7 +37,7 @@
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
                             <h3 class="fw-bold text-primary mb-2">
-                                <i class="bi bi-bag-heart me-2"></i>PreloveX
+                                <i class="bi bi-bag-heart me-2"></i>The Order
                             </h3>
                             <h4 class="fw-bold mb-2">Sign In</h4>
                             <p class="text-muted">Enter your credentials to access your account</p>
@@ -45,6 +45,25 @@
 
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Login Failed!</strong>
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+                            @if (session('status'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('status') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
 
                             <div class="mb-3">
                                 <label for="email" class="form-label fw-semibold">
@@ -76,33 +95,42 @@
                             <div class="mb-4 d-flex justify-content-between align-items-center">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="remember">
+                                    <label class="form-check-label" for="remember" style="cursor: pointer;">
                                         Remember Me
                                     </label>
                                 </div>
-
-                                @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}" class="text-decoration-none text-primary small fw-semibold">
-                                        Forgot Password?
-                                    </a>
-                                @endif
                             </div>
 
                             <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-primary btn-lg">
+                                <button type="submit" class="btn btn-primary btn-lg fw-semibold" style="padding: 0.75rem 1.5rem;">
                                     <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
                                 </button>
                             </div>
 
-                            <hr class="my-4">
-
-                            <div class="text-center">
-                                <p class="text-muted mb-0">
-                                    Don't have an account? 
-                                    <a href="{{ route('register') }}" class="text-decoration-none fw-semibold text-primary">Create Account</a>
-                                </p>
-                            </div>
+                            @if (Route::has('password.request'))
+                                <div class="text-center mb-3">
+                                    <a href="{{ route('password.request') }}" class="text-decoration-none text-primary small fw-semibold">
+                                        <i class="bi bi-question-circle me-1"></i>Forgot Password?
+                                    </a>
+                                </div>
+                            @endif
                         </form>
+
+                        <hr class="my-4">
+
+                        <!-- Google Login -->
+                        <div class="d-grid mb-3">
+                            <a href="{{ route('auth.google') }}" class="btn btn-outline-secondary btn-lg fw-semibold" style="padding: 0.75rem 1.5rem;">
+                                <i class="fab fa-google me-2"></i>Sign in with Google
+                            </a>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Don't have an account? 
+                                <a href="{{ route('register') }}" class="text-decoration-none fw-semibold text-primary">Create Account</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Register - PreloveX')
+@section('title', 'Register - The Order')
 
 @section('content')
 <div class="row justify-content-center py-5">
@@ -12,7 +12,7 @@
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
                             <h3 class="fw-bold text-primary mb-2">
-                                <i class="bi bi-bag-heart me-2"></i>PreloveX
+                                <i class="bi bi-bag-heart me-2"></i>The Order
                             </h3>
                             <h4 class="fw-bold mb-2">Create Your Account</h4>
                             <p class="text-muted">Join our premium preloved marketplace</p>
@@ -50,26 +50,6 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="role" class="form-label fw-semibold">
-                                    <i class="bi bi-person-badge me-2 text-primary"></i>Account Type
-                                </label>
-                                <select id="role" name="role" 
-                                        class="form-select @error('role') is-invalid @enderror" 
-                                        required>
-                                    <option value="customer" {{ old('role', 'customer') == 'customer' ? 'selected' : '' }}>
-                                        Customer - Shop for preloved items
-                                    </option>
-                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>
-                                        Admin - Manage products and orders
-                                    </option>
-                                </select>
-                                @error('role')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                                <small class="text-muted">Choose your account type</small>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="password" class="form-label fw-semibold">
                                     <i class="bi bi-lock me-2 text-primary"></i>Password
                                 </label>
@@ -78,9 +58,11 @@
                                        name="password" required autocomplete="new-password"
                                        placeholder="Min. 8 characters">
                                 @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
-                                <small class="text-muted">Minimum 8 characters</small>
+                                <small class="text-muted d-block mt-1" style="font-size: 0.85rem;">
+                                    <i class="bi bi-info-circle me-1"></i>Minimum 8 characters required
+                                </small>
                             </div>
 
                             <div class="mb-4">
@@ -88,26 +70,69 @@
                                     <i class="bi bi-lock-fill me-2 text-primary"></i>Confirm Password
                                 </label>
                                 <input id="password-confirm" type="password" 
-                                       class="form-control" 
+                                       class="form-control @error('password_confirmation') is-invalid @enderror" 
                                        name="password_confirmation" required autocomplete="new-password"
                                        placeholder="Re-enter password">
+                                @error('password_confirmation')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
                             </div>
 
-                            <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-primary btn-lg">
+                            <div class="mb-4">
+                                <label for="role" class="form-label fw-semibold">
+                                    <i class="bi bi-briefcase me-2 text-primary"></i>Choose Your Role
+                                </label>
+                                <select id="role" class="form-select @error('role') is-invalid @enderror" 
+                                        name="role" required>
+                                    <option value="">-- Select Your Role --</option>
+                                    <option value="customer" {{ old('role') == 'customer' ? 'selected' : '' }}>
+                                        👤 Customer (Pembeli)
+                                    </option>
+                                    <option value="penjual" {{ old('role') == 'penjual' ? 'selected' : '' }}>
+                                        🏪 Penjual (Seller)
+                                    </option>
+                                </select>
+                                @error('role')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                                <div class="row mt-3 gx-2">
+                                    <div class="col-6">
+                                        <small class="d-block p-2 rounded" style="background-color: #f0f6ff; border-left: 3px solid #0d6efd;">
+                                            <strong class="text-primary d-block mb-1">👤 Customer</strong>
+                                            <span style="font-size: 0.8rem;">Belanja barang preloved</span>
+                                        </small>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="d-block p-2 rounded" style="background-color: #fff8f0; border-left: 3px solid #fd7e14;">
+                                            <strong class="text-warning d-block mb-1">🏪 Penjual</strong>
+                                            <span style="font-size: 0.8rem;">Jual barang Anda</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid mt-4 mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg fw-semibold" style="padding: 0.75rem 1.5rem;">
                                     <i class="bi bi-person-plus me-2"></i>Create Account
                                 </button>
                             </div>
-
-                            <hr class="my-4">
-
-                            <div class="text-center">
-                                <p class="text-muted mb-0">
-                                    Already have an account? 
-                                    <a href="{{ route('login') }}" class="text-decoration-none fw-semibold text-primary">Sign In</a>
-                                </p>
-                            </div>
                         </form>
+
+                        <hr class="my-4">
+
+                        <!-- Google Register -->
+                        <div class="d-grid mb-3">
+                            <a href="{{ route('auth.google') }}" class="btn btn-outline-secondary btn-lg fw-semibold" style="padding: 0.75rem 1.5rem;">
+                                <i class="fab fa-google me-2"></i>Sign up with Google
+                            </a>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Already have an account? 
+                                <a href="{{ route('login') }}" class="text-decoration-none fw-semibold text-primary">Sign In</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
 

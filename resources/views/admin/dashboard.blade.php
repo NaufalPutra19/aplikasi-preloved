@@ -101,7 +101,7 @@
                             <tr>
                                 <td class="fw-semibold">#{{ $order->id }}</td>
                                 <td>{{ $order->user->name }}</td>
-                                <td class="text-primary fw-semibold">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
+                                <td class="text-primary fw-semibold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
                                 <td>
                                     <span class="badge bg-{{ $order->status == 'pending' ? 'warning' : 'success' }}">
                                         {{ ucfirst($order->status) }}

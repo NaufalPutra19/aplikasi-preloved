@@ -1,10 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container">
     <a class="navbar-brand" href="{{ route('home') }}">
-      @if(file_exists(public_path('images/logo.png')))
-        <img src="{{ asset('images/logo.png') }}" alt="The ORDER" height="40" style="max-height: 40px;">
-      @else
-        <span class="text-primary fw-bold">PreloveX</span>
+      @if(file_exists(public_path('')))
+        <span class="text-primary fw-bold">The Order</span>
       @endif
     </a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
@@ -13,6 +11,7 @@
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link" href="{{ route('products.index') }}">Catalog</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('orders.index') }}">Orders</a></li>
       </ul>
       <ul class="navbar-nav ms-auto">
         @guest

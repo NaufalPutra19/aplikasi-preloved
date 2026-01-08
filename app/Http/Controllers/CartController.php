@@ -2,83 +2,115 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\item;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $items = session('cart', []);
-        return view('cart.index', compact('items'));
+        $cart = session()->get('cart', []);
+        $cartItems = [];
+        $total = 0;
+
+        foreach ($cart as $id => $details) {
+            $product = item::find($id);
+            if ($product) {
+                $cartItems[$id] = [
+                    'product' => $product,
+                    'quantity' => $details['quantity'] ?? $details['qty'] ?? 1,
+                    'subtotal' => $product->price * ($details['quantity'] ?? $details['qty'] ?? 1)
+                ];
+                $total += $cartItems[$id]['subtotal'];
+            }
+        }
+
+        return view('cart.index', compact('cartItems', 'total'));
     }
 
     public function add(Request $request)
     {
         $request->validate([
-            'item_id' => 'required|exists:items,id',
-            'qty' => 'required|integer|min:1'
+            'product_id' => 'required|exists:items,id',
+            'quantity' => 'required|integer|min:1'
         ]);
 
-        $item = item::findOrFail($request->item_id);
+        $product = item::findOrFail($request->product_id);
         
-        if($request->qty > $item->stock) {
-            return back()->with('error', 'Stock tidak mencukupi');
+        // Check stock
+        if ($product->stock < $request->quantity) {
+            return back()->with('error', 'Insufficient stock available');
         }
 
-        $cart = session('cart', []);
+        $cart = session()->get('cart', []);
         
-        if(isset($cart[$item->id])) {
-            $cart[$item->id]['quantity'] += $request->qty;
+        // If product already in cart, increase quantity
+        if (isset($cart[$product->id])) {
+            $newQty = $cart[$product->id]['quantity'] + $request->quantity;
+            
+            if ($newQty > $product->stock) {
+                return back()->with('error', 'Cannot add more items. Stock limit reached.');
+            }
+            
+            $cart[$product->id]['quantity'] = $newQty;
         } else {
-            $cart[$item->id] = [
-                'name' => $item->name,
-                'price' => $item->price,
-                'quantity' => $request->qty,
-                'image' => $item->image
+            // Add new product to cart
+            $cart[$product->id] = [
+                'product_id' => $product->id,
+                'quantity' => $request->quantity,
+                'price' => $product->price
             ];
         }
-        
-        session(['cart' => $cart]);
-        return back()->with('success', 'Item berhasil ditambahkan ke cart');
+
+        session()->put('cart', $cart);
+
+        return back()->with('success', 'Product added to cart successfully!');
     }
 
     public function update(Request $request)
     {
         $request->validate([
-            'id' => 'required',
+            'product_id' => 'required|exists:items,id',
             'quantity' => 'required|integer|min:1'
         ]);
 
-        $cart = session('cart', []);
-        
-        if(isset($cart[$request->id])) {
-            $item = item::find($request->id);
-            if($request->quantity > $item->stock) {
-                return back()->with('error', 'Stock tidak mencukupi');
-            }
-            $cart[$request->id]['quantity'] = $request->quantity;
-            session(['cart' => $cart]);
-            return back()->with('success', 'Cart berhasil diupdate');
+        $product = item::findOrFail($request->product_id);
+
+        if ($request->quantity > $product->stock) {
+            return back()->with('error', 'Quantity exceeds available stock');
         }
-        
-        return back()->with('error', 'Item tidak ditemukan');
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$request->product_id])) {
+            $cart[$request->product_id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
+            return back()->with('success', 'Cart updated successfully!');
+        }
+
+        return back()->with('error', 'Product not found in cart');
     }
 
     public function remove(Request $request)
     {
         $request->validate([
-            'id' => 'required'
+            'product_id' => 'required'
         ]);
 
-        $cart = session('cart', []);
-        
-        if(isset($cart[$request->id])) {
-            unset($cart[$request->id]);
-            session(['cart' => $cart]);
-            return back()->with('success', 'Item berhasil dihapus dari cart');
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$request->product_id])) {
+            unset($cart[$request->product_id]);
+            session()->put('cart', $cart);
+            return back()->with('success', 'Product removed from cart');
         }
-        
-        return back()->with('error', 'Item tidak ditemukan');
+
+        return back()->with('error', 'Product not found in cart');
+    }
+
+    public function clear()
+    {
+        session()->forget('cart');
+        return back()->with('success', 'Cart cleared successfully');
     }
 }

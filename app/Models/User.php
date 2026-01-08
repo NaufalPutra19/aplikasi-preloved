@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\VerifyEmailNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'google_id',
     ];
 
     /**
@@ -47,5 +49,13 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(order::class, 'user_id');
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailNotification());
     }
 }

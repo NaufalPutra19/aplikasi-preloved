@@ -9,14 +9,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 <style>
 :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary: #8b5cf6;
+    --primary: #093FB4;
+    --primary-dark: #072A80;
+    --secondary: #0A4FA8;
     --success: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
     --dark: #1f2937;
-    --light: #f9fafb;
+    --light: #F4F4F4;
 }
 
 body {

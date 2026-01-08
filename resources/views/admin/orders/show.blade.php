@@ -50,7 +50,7 @@
                         <tfoot>
                             <tr class="table-light">
                                 <th colspan="3" class="text-end">Total:</th>
-                                <th class="text-primary">Rp {{ number_format($order->total, 0, ',', '.') }}</th>
+                                <th class="text-primary">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="text-muted small">Total Amount</label>
-                    <div class="fw-bold text-primary fs-5">Rp {{ number_format($order->total, 0, ',', '.') }}</div>
+                    <div class="fw-bold text-primary fs-5">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</div>
                 </div>
             </div>
         </div>

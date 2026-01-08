@@ -1,0 +1,24 @@
+# GOOGLE OAUTH SETUP - COPY INI KE .env ANDA
+
+# Step 1: Buka https://console.cloud.google.com
+# Step 2: Buat Project → Aktifkan Google+ API
+# Step 3: Credentials → Create OAuth 2.0 Client ID (Web Application)
+# Step 4: Authorized redirect URIs: http://localhost:8000/auth/google/callback
+# Step 5: Copy Client ID dan Secret di bawah
+
+# GANTI DENGAN DATA ANDA (Copy dari Google Cloud Console)
+GOOGLE_CLIENT_ID=your_client_id_here.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_client_secret_here
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
+
+# Untuk development, gunakan mailpit yang sudah built-in di Laragon
+# Email akan muncul di http://localhost:8025
+
+# Atau jika mau test email sungguhan, gunakan Mailtrap:
+# MAIL_MAILER=smtp
+# MAIL_HOST=live.smtp.mailtrap.io
+# MAIL_PORT=587
+# MAIL_USERNAME=your_mailtrap_username
+# MAIL_PASSWORD=your_mailtrap_password
+# MAIL_ENCRYPTION=tls
+# MAIL_FROM_ADDRESS=noreply@yourapp.com

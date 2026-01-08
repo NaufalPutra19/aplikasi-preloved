@@ -139,7 +139,8 @@
                     </div>
 
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active" 
+                        <input type="hidden" name="is_active" value="0">
+                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1"
                                {{ old('is_active', $item->is_active) ? 'checked' : '' }}>
                         <label class="form-check-label" for="is_active">Active (visible to customers)</label>
                     </div>
