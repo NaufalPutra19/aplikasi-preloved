@@ -20,6 +20,12 @@ class order extends Model
         'status',
         'payment_status',
         'payment_method',
+        'payment_reference',
+        'paid_at',
+        'escrow_status',
+        'escrow_confirmed_at',
+        'escrow_released_at',
+        'escrow_notes',
         'shipping_name',
         'shipping_address',
         'shipping_city',
@@ -33,6 +39,9 @@ class order extends Model
         'total_amount' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
         'tax' => 'decimal:2',
+        'paid_at' => 'datetime',
+        'escrow_confirmed_at' => 'datetime',
+        'escrow_released_at' => 'datetime',
     ];
 
     public function user()

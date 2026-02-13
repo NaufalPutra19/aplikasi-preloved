@@ -88,7 +88,7 @@
                                     <option value="customer" {{ old('role') == 'customer' ? 'selected' : '' }}>
                                         👤 Customer (Pembeli)
                                     </option>
-                                    <option value="penjual" {{ old('role') == 'penjual' ? 'selected' : '' }}>
+                                    <option value="seller" {{ old('role') == 'seller' ? 'selected' : '' }}>
                                         🏪 Penjual (Seller)
                                     </option>
                                 </select>

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\OrderController as CustomerOrderController;
+use App\Http\Controllers\ProfileController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -47,7 +48,7 @@ Route::middleware('auth')->group(function () {
 // Home route (redirects based on role)
 Route::get('/home', function () {
     if (auth()->check()) {
-        if (auth()->user()->role === 'penjual') {
+        if (auth()->user()->role === 'seller') {
             return redirect()->route('admin.dashboard');
         }
     }
@@ -73,6 +74,14 @@ Route::middleware('auth')->group(function() {
     // Customer orders
     Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order}/confirm-payment', [CustomerOrderController::class, 'confirmPayment'])->name('orders.confirmPayment');
+    Route::post('/orders/{order}/confirm-receipt', [CustomerOrderController::class, 'confirmEscrowReceipt'])->name('orders.confirmReceipt');
+
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto'])->name('profile.deletePhoto');
 });
 
 // Unit Management Routes (untuk admin)
@@ -107,3 +116,4 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::resource('units', UnitController::class);
 });
+

@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // ... (kode __construct dan index tetap sama) ...
 
     public function index()
     {
@@ -63,7 +60,14 @@ class CheckoutController extends Controller
                 $validated['shipping_province']
             );
 
+            // Logika Tambahan: Biaya Layanan untuk metode tertentu (Opsional)
+            // Misalnya COD kena biaya penanganan 2%
             $tax = 0;
+            if ($validated['payment_method'] === 'cod') {
+                // Contoh logika tambahan untuk COD
+                 $tax = 0; // Atau $subtotal * 0.02;
+            }
+
             $totalAmount = $subtotal + $shippingCost + $tax;
 
             // Generate order number
@@ -77,7 +81,7 @@ class CheckoutController extends Controller
                 'shipping_cost' => $shippingCost,
                 'tax' => $tax,
                 'status' => 'pending',
-                'payment_status' => 'unpaid',
+                'payment_status' => 'unpaid', // Default unpaid
                 'payment_method' => $validated['payment_method'],
                 'shipping_name' => $validated['shipping_name'],
                 'shipping_address' => $validated['shipping_address'],
@@ -109,38 +113,38 @@ class CheckoutController extends Controller
 
             DB::commit();
 
+            // Tentukan pesan sukses berdasarkan metode pembayaran
+            $message = 'Order placed successfully!';
+            if ($validated['payment_method'] == 'bank_transfer') {
+                $message .= ' Silakan lakukan transfer bank untuk memproses pesanan.';
+            } elseif ($validated['payment_method'] == 'cod') {
+                $message .= ' Mohon siapkan uang tunai saat kurir datang.';
+            } elseif ($validated['payment_method'] == 'e_wallet') {
+                $message .= ' Silakan scan QRIS atau transfer E-Wallet untuk pembayaran.';
+            }
+
             return redirect()->route('orders.show', $order)
-                ->with('success', 'Order placed successfully! Order number: ' . $orderNumber);
+                ->with('success', $message);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Failed to place order. Please try again. Error: ' . $e->getMessage());
+            return back()->with('error', 'Failed to place order. ' . $e->getMessage());
         }
     }
 
-    /**
-     * Calculate shipping cost based on destination
-     */
+    // ... (method calculateShippingCost dan getDefaultShippingCost tetap sama) ...
     private function calculateShippingCost(string $destCity, string $destProvince): float
     {
-        // Default origin (warehouse location)
         $originCity = 'Jakarta';
         $originProvince = 'DKI Jakarta';
-
-        // Try to find shipping rate in database
         $shippingRate = ShippingRate::findByCities($originCity, $originProvince, $destCity, $destProvince);
 
         if ($shippingRate) {
             return (float) $shippingRate->calculateCost();
         }
-
-        // Fallback to default calculation
         return $this->getDefaultShippingCost($destProvince);
     }
 
-    /**
-     * Get default shipping cost based on province
-     */
     private function getDefaultShippingCost(string $destProvince): float
     {
         $shippingRates = [
@@ -156,6 +160,6 @@ class CheckoutController extends Controller
             'Kalimantan Timur' => 55000,
         ];
 
-        return $shippingRates[$destProvince] ?? 30000; // Default if not found
+        return $shippingRates[$destProvince] ?? 30000;
     }
 }

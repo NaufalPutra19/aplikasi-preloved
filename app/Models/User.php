@@ -24,6 +24,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role',
         'google_id',
+        'photo',
+        'bio',
+        'phone',
+        'address',
+        'city',
+        'province',
+        'postal_code',
     ];
 
     /**
@@ -57,5 +64,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmailNotification());
+    }
+
+    public function isAdmin()
+    {
+        // Cek apakah role user ada di dalam array ini
+        return in_array($this->role, ['admin', 'seller']);
     }
 }

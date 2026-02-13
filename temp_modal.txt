@@ -1,0 +1,49 @@
+
+<!-- Modal Konfirmasi Penerimaan Barang (Rekening Bersama) -->
+<div class="modal fade" id="confirmReceiptModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="bi bi-box-seam me-2"></i>Konfirmasi Penerimaan Barang</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ route('orders.confirmReceipt', $order) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <strong><i class="bi bi-exclamation-triangle me-2"></i>Penting!</strong><br>
+                        Setelah Anda mengkonfirmasi penerimaan barang, dana akan langsung dilepaskan ke penjual. 
+                        Pastikan barang sudah diterima dalam kondisi baik sesuai pesanan.
+                    </div>
+
+                    <div class="card mb-3 bg-light">
+                        <div class="card-body">
+                            <h6 class="card-title">Checklist Penerimaan</h6>
+                            <ul class="mb-0 ps-3">
+                                <li>Barang diterima sesuai pesanan</li>
+                                <li>Jumlah item sesuai dengan order</li>
+                                <li>Barang dalam kondisi baik (tidak cacat/rusak)</li>
+                                <li>Kemasan masih aman</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="receiptConfirmCheck" name="receipt_confirmation" required>
+                            <label class="form-check-label" for="receiptConfirmCheck">
+                                Saya sudah menerima dan memeriksa barang. Semuanya sesuai dengan pesanan dan dalam kondisi baik.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-lg me-2"></i>Konfirmasi Penerimaan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

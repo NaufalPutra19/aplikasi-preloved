@@ -202,6 +202,21 @@
                                         </label>
                                     </div>
                                 </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-check border rounded p-3 h-100">
+                                        <input class="form-check-input" type="radio" name="payment_method" id="payment_rekber" value="e_wallet">
+                                        <label class="form-check-label w-100" for="payment_rekber">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-shield-lock fs-4 text-info me-3"></i>
+                                                <div>
+                                                    <strong>Rekening Bersama</strong>
+                                                    <p class="text-muted small mb-0">Transaksi aman, dana diteruskan ke penjual setelah barang diterima</p>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+</div>
                             </div>
                         </div>
 

@@ -51,8 +51,11 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="align-middle text-center">
-                                        Rp {{ number_format($item['product']->price, 0, ',', '.') }}
+                                    <td class="align-middle text-end">
+                                        <div class="price-display">
+                                            <div style="font-size: 0.85rem; color: #0066cc; font-weight: 600;">Rp</div>
+                                            <div style="font-size: 1rem; color: #0066cc; font-weight: 700;">{{ number_format($item['product']->price, 0, ',', '.') }}</div>
+                                        </div>
                                     </td>
                                     <td class="align-middle text-center">
                                         <form action="{{ route('cart.update') }}" method="POST" class="d-inline">
